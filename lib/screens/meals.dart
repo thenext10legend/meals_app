@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
 
@@ -13,7 +15,33 @@ class MealsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: ,
+      body: meals.isEmpty
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "Uh oh...nothing here",
+                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text(
+                    "Try selecting a differnt category!",
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onBackground,
+                        ),
+                  )
+                ],
+              ),
+            )
+          : ListView.builder(
+              itemCount: meals.length,
+              itemBuilder: (ctx, index) => Text(meals[index].title),
+            ),
     );
   }
 }
