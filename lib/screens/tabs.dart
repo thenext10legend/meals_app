@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, curly_braces_in_flow_control_structures
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, curly_braces_in_flow_control_structures, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
@@ -19,10 +19,25 @@ class _TabsScreenState extends State<TabsScreen> {
   void _toggleMealFavoriteStatus(Meal meal) {
     final isExisting = _favoriteMeals.contains(meal);
 
+    void _showInfoMessage(String message) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(message),
+        ),
+      );
+    }
+
     if (isExisting) {
-      _favoriteMeals.remove(meal);
+      setState(() {
+        _showInfoMessage("Meal is no longer a favorite.");
+        _favoriteMeals.remove(meal);
+      });
     } else
-      _favoriteMeals.add(meal);
+      setState(() {
+        _showInfoMessage("Marked as a favorite!");
+        _favoriteMeals.add(meal);
+      });
   }
 
   void _selectPage(int index) {
@@ -40,7 +55,7 @@ class _TabsScreenState extends State<TabsScreen> {
 
     if (_selectedPageIndex == 1) {
       activePage = MealsScreen(
-        meals: [],
+        meals: _favoriteMeals,
         onToggleFavorite: _toggleMealFavoriteStatus,
       );
       activePageTitle = "Your Favorites";
