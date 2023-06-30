@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, curly_braces_in_flow_control_structures, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, curly_braces_in_flow_control_structures, no_leading_underscores_for_local_identifiers, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:meals_app/models/meal.dart';
@@ -48,14 +48,15 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
-  void _setScreen(String identifier) {
+  void _setScreen(String identifier) async {
     Navigator.of(context).pop();
     if (identifier == 'filters') {
-      Navigator.of(context).push(
+      final result = await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
           builder: (ctx) => FiltersScreen(),
         ),
       );
+      print(result);
     }
   }
 
