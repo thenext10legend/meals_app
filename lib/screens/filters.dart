@@ -9,7 +9,12 @@ enum Filter {
 }
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({
+    super.key,
+    required this.currentFilters,
+  });
+
+  final Map<Filter, bool> currentFilters;
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
@@ -18,8 +23,19 @@ class FiltersScreen extends StatefulWidget {
 class _FiltersScreenState extends State<FiltersScreen> {
   var _gluterFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
-  var _vegeterianFilterSet = false;
+  var _vegetarianFilterSet = false;
   var _veganFilterSet = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _gluterFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
+    _lactoseFreeFilterSet =
+        _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
+    _vegetarianFilterSet =
+        _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
+    _veganFilterSet = _veganFilterSet = widget.currentFilters[Filter.vegan]!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +60,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
             Navigator.of(context).pop({
               Filter.glutenFree: _gluterFreeFilterSet,
               Filter.lactoseFree: _lactoseFreeFilterSet,
-              Filter.vegetarian: _vegeterianFilterSet,
+              Filter.vegetarian: _vegetarianFilterSet,
               Filter.vegan: _veganFilterSet,
             });
             return false;
@@ -102,10 +118,10 @@ class _FiltersScreenState extends State<FiltersScreen> {
                 ),
               ),
               SwitchListTile(
-                value: _vegeterianFilterSet,
+                value: _vegetarianFilterSet,
                 onChanged: (isChecked) {
                   setState(() {
-                    _vegeterianFilterSet = isChecked;
+                    _vegetarianFilterSet = isChecked;
                   });
                 },
                 title: Text(
